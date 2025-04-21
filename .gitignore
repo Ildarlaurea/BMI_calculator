@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# SQLite database
+*.db
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node modules (if using JS tools later)
+node_modules/
+
+# Frontend build (if you add React/Vue later)
+dist/
+build/
