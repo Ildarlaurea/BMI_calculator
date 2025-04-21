@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, Query, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -9,17 +9,14 @@ from database import SessionLocal, engine
 from models import Base, BMIRecord
 from bmi_model import BMICalculator
 
-# Create all tables
+# Initialize FastAPI
+app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
-# Initialize FastAPI app
-app = FastAPI()
+# Mount frontend at /static
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
-# Serve static HTML, CSS, JS from the "static" folder
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
-
-
-# Dependency for DB session
+# DB session
 def get_db():
     db = SessionLocal()
     try:
@@ -27,22 +24,17 @@ def get_db():
     finally:
         db.close()
 
-
-# Request model for POST /bmi
+# Pydantic models
 class BMIInput(BaseModel):
     weight: float
     height: float
     unit: str = "metric"
 
-
-# Response model for POST /bmi
 class BMIResponse(BaseModel):
     bmi: float
     category: str
     tip: str
 
-
-# Response model for GET /bmi/history
 class BMIHistoryResponse(BaseModel):
     id: int
     weight: float
@@ -57,8 +49,7 @@ class BMIHistoryResponse(BaseModel):
         "from_attributes": True
     }
 
-
-# POST /bmi - Calculate and store BMI
+# API routes
 @app.post("/bmi", response_model=BMIResponse)
 def calculate_bmi(data: BMIInput, db: Session = Depends(get_db)):
     bmi_calc = BMICalculator(weight=data.weight, height=data.height, unit=data.unit)
@@ -76,20 +67,16 @@ def calculate_bmi(data: BMIInput, db: Session = Depends(get_db)):
     )
     db.add(record)
     db.commit()
-
     return BMIResponse(bmi=bmi, category=category, tip=tip)
 
-
-# GET /bmi/history - Filterable BMI history
 @app.get("/bmi/history", response_model=List[BMIHistoryResponse])
 def get_bmi_history(
     db: Session = Depends(get_db),
-    min_bmi: float = Query(None, description="Minimum BMI"),
-    max_bmi: float = Query(None, description="Maximum BMI"),
-    category: str = Query(None, description="BMI category (e.g. 'Overweight')")
+    min_bmi: float = Query(None),
+    max_bmi: float = Query(None),
+    category: str = Query(None)
 ):
     query = db.query(BMIRecord)
-
     if min_bmi is not None:
         query = query.filter(BMIRecord.bmi >= min_bmi)
     if max_bmi is not None:
@@ -99,8 +86,6 @@ def get_bmi_history(
 
     return query.order_by(BMIRecord.timestamp.desc()).all()
 
-
-# DELETE /bmi/{id} - Remove a specific BMI record
 @app.delete("/bmi/{record_id}")
 def delete_bmi_record(record_id: int, db: Session = Depends(get_db)):
     record = db.query(BMIRecord).filter(BMIRecord.id == record_id).first()
@@ -109,5 +94,4 @@ def delete_bmi_record(record_id: int, db: Session = Depends(get_db)):
 
     db.delete(record)
     db.commit()
-
     return {"message": f"Record {record_id} deleted successfully"}

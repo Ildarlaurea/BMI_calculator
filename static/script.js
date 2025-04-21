@@ -3,7 +3,7 @@ const resultDiv = document.getElementById("result");
 const historyDiv = document.getElementById("history");
 const showHistoryBtn = document.getElementById("showHistory");
 
-// Handle form submission
+// Handle form submit
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -19,7 +19,7 @@ form.addEventListener("submit", async (e) => {
     });
 
     const data = await response.json();
-    console.log("Backend response:", data); // 👈 debug log
+    console.log("Response:", data);
 
     if (response.ok) {
       resultDiv.innerHTML = `
@@ -29,7 +29,7 @@ form.addEventListener("submit", async (e) => {
         <p><strong>Tip:</strong> ${data.tip}</p>
       `;
     } else {
-      resultDiv.innerHTML = `<p style="color:red;">${data.detail || "Error calculating BMI."}</p>`;
+      resultDiv.innerHTML = `<p style="color:red;">${data.detail || "Error calculating BMI"}</p>`;
     }
 
     resultDiv.classList.remove("hidden");
@@ -73,9 +73,7 @@ async function loadHistory() {
             <td>${entry.bmi}</td>
             <td>${entry.category}</td>
             <td>${new Date(entry.timestamp).toLocaleString()}</td>
-            <td>
-              <button class="delete-btn" onclick="deleteRecord(${entry.id})">🗑️ Delete</button>
-            </td>
+            <td><button class="delete-btn" onclick="deleteRecord(${entry.id})">🗑️ Delete</button></td>
           </tr>
         `;
       });
@@ -87,12 +85,12 @@ async function loadHistory() {
     historyDiv.classList.remove("hidden");
   } catch (error) {
     console.error("History error:", error);
-    historyDiv.innerHTML = `<p style="color:red;">Error loading history: ${error.message}</p>`;
+    historyDiv.innerHTML = `<p style="color:red;">Failed to load history: ${error.message}</p>`;
     historyDiv.classList.remove("hidden");
   }
 }
 
-// Delete a BMI record
+// Delete BMI record by ID
 async function deleteRecord(id) {
   if (!confirm(`Delete record #${id}?`)) return;
 
@@ -104,8 +102,7 @@ async function deleteRecord(id) {
     const result = await response.json();
     alert(result.message);
 
-    // Refresh history
-    loadHistory();
+    loadHistory(); // Refresh table
   } catch (error) {
     alert("Failed to delete: " + error.message);
   }
