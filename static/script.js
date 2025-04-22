@@ -10,6 +10,13 @@ form.addEventListener("submit", (e) => {
   const height = parseFloat(document.getElementById("height").value);
   const unit = document.getElementById("units").value;
 
+  if (!weight || !height) {
+    resultText.innerHTML = "<p>Please enter valid weight and height.</p>";
+    resultSection.classList.remove("hidden");
+    bodyImage.classList.add("hidden");
+    return;
+  }
+
   let bmi;
 
   if (unit === "metric") {
@@ -46,7 +53,7 @@ form.addEventListener("submit", (e) => {
     imageFile = "body_obesity.png";
   }
 
-  // Show result
+  // Display result and image
   resultText.innerHTML = `
     <h3>Your BMI: ${bmi}</h3>
     <p><strong>Category:</strong> ${category}</p>
