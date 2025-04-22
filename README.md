@@ -75,9 +75,15 @@ bmi-calculator/
 
 ## 📸 Screenshots
 
-| Hero Section                | Result View                    |
-|----------------------------|--------------------------------|
-| ![Hero](intro-image.jpg)   | ![Result](body_normal.png)     |
+Overview            
+![image](https://github.com/user-attachments/assets/1629f5d5-9b2c-4cd8-b34f-f52955b03342)
+
+Calculator    
+![image](https://github.com/user-attachments/assets/5d7cca9a-a0d9-44aa-86f1-80f2bacf77ed)
+
+Results & History
+![image](https://github.com/user-attachments/assets/f07a0413-7dd0-4433-b5e5-b27300fedcf8)
+
 
 ---
 
