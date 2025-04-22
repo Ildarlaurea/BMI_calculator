@@ -14,7 +14,7 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 # Serve static folder for frontend
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 # Dependency to get DB session
 def get_db():
