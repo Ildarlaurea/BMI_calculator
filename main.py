@@ -92,3 +92,7 @@ def delete_all_bmi_records(db: Session = Depends(get_db)):
     db.query(BMIRecord).delete()
     db.commit()
     return {"message": "All BMI records deleted"}
+    
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
