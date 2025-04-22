@@ -1,111 +1,126 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #eef2f3, #ffffff);
   margin: 0;
-  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: rgb(255, 255, 255);
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.08);
-}
-
-h1, h3 {
+/* Hero section */
+.hero {
+  position: relative;
+  height: 70vh; /* reduced from 100vh */
   text-align: center;
-  color: #4a90e2;
-  margin-bottom: 20px;
+  overflow: hidden;
 }
 
-.input-group {
-  margin-bottom: 15px;
+.hero-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  filter: brightness(0.4);
+  z-index: -1;
 }
 
-label {
-  display: block;
+.hero-title {
+  position: relative;
+  top: 40%;
+  color: rgba(255, 255, 255, 0.705);
+  font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
-input, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.hero-credit {
+  position: relative;
+  top: 35%;
+  font-size: 1rem;
+  ccolor: rgba(255, 255, 255, 0.705);
   margin-top: 10px;
 }
 
-button:hover {
-  background: #357ab8;
-}
-
-.result-box, .history {
-  margin-top: 25px;
-  padding: 20px;
-  background: #f0f8ff;
-  border-radius: 10px;
-  border: 1px solid #cbe7ff;
-}
-
-.hidden {
-  display: none;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
-
-th, td {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
-}
-
-th {
-  background-color: #dbeeff;
-}
-
-.delete-btn {
-  background: #ff4d4d;
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
   color: white;
+  text-decoration: none;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+
+/* Form section */
+.form-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-image: url('calculator-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.form-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* black transparent layer */
+  z-index: -1;
+}
+
+.form-section {
+  position: relative;
+  z-index: 1;
+}
+
+input, select, button {
+  width: 300px;
+  padding: 12px;
+  margin: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+}
+
+button {
+  background-color: white;
+  color: black;
   cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s ease;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
-.delete-btn:hover {
-  background: #cc0000;
+button:hover {
+  background-color: #333;
+  color: white;
 }
 
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
+#result {
+  margin-top: 30px;
+  font-size: 1.2rem;
+}
 
-  input, select, button {
-    font-size: 14px;
-  }
+#result img {
+  margin-top: 20px;
+  width: 250px;
+  border-radius: 10px;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+  background-color: #111;
+  border-top: 1px solid #333;
 }

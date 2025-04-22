@@ -4,39 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BMI Calculator</title>
-  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>BMI Calculator</h1>
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="intro-image.jpg" class="hero-img" alt="Intro"/>
+    <h1 class="hero-title">BMI Calculator</h1>
+    <p class="hero-credit">Made by Ildar Mamin</p>
+    <a href="#form-section" class="scroll-down">↓</a>
+  </section>
 
-    <form id="bmiForm">
-      <div class="input-group">
-        <label for="weight">Weight:</label>
-        <input type="number" id="weight" placeholder="e.g. 70 (kg)" required />
-      </div>
-
-      <div class="input-group">
-        <label for="height">Height:</label>
-        <input type="number" id="height" placeholder="e.g. 190 (cm)" required />
-      </div>
-
-      <div class="input-group">
-        <label for="unit">Units:</label>
-        <select id="unit">
+  <!-- BMI Form Section -->
+  <section id="form-section" class="form-section">
+    <form id="bmi-form">
+      <label>Weight:<br><input type="number" id="weight" placeholder="e.g. 70 (kg)" required /></label><br>
+      <label>Height:<br><input type="number" id="height" placeholder="e.g. 170 (cm)" required /></label><br>
+      <label>Units:<br>
+        <select id="units">
           <option value="metric">Metric (kg/cm)</option>
-          <option value="imperial">Imperial (lbs/in)</option>
         </select>
-      </div>
-
+      </label><br>
       <button type="submit">Calculate</button>
     </form>
+    <div id="result"></div>
+  </section>
 
-    <div id="result" class="result-box hidden"></div>
-    <button id="showHistory">Show History</button>
-    <div id="history" class="history hidden"></div>
-  </div>
+  <script src="script.js"></script>
 
-  <script src="/static/script.js"></script>
+  <footer class="footer">
+    <p>© 2025 Ildar Mamin. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
