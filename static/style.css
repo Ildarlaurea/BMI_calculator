@@ -5,7 +5,7 @@ body {
   color: white;
 }
 
-/* Hero section */
+/* Hero Section */
 .hero {
   position: relative;
   height: 70vh;
@@ -37,7 +37,6 @@ body {
   top: 35%;
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
-  margin-top: 10px;
 }
 
 .scroll-down {
@@ -56,7 +55,7 @@ body {
   50% { transform: translateY(10px); }
 }
 
-/* Form section */
+/* Form Section */
 .form-section {
   padding: 60px 20px;
   text-align: center;
@@ -105,6 +104,39 @@ button:hover {
 
 .hidden {
   display: none;
+}
+
+/* History */
+#history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: white;
+}
+
+#history th, #history td {
+  border: 1px solid #555;
+  padding: 10px;
+  text-align: center;
+}
+
+#history th {
+  background-color: #222;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
 }
 
 .footer {

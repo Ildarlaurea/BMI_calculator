@@ -8,18 +8,15 @@ from datetime import datetime
 from database import SessionLocal, engine
 from models import Base, BMIRecord
 from bmi_model import BMICalculator
-from fastapi.staticfiles import StaticFiles
 
-
-# Initialize FastAPI
+# App init
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
-# Mount frontend at /static
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+# Serve static folder for frontend
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
-# DB session
+# Dependency to get DB session
 def get_db():
     db = SessionLocal()
     try:
@@ -27,7 +24,7 @@ def get_db():
     finally:
         db.close()
 
-# Pydantic models
+# Pydantic schemas
 class BMIInput(BaseModel):
     weight: float
     height: float
@@ -52,7 +49,7 @@ class BMIHistoryResponse(BaseModel):
         "from_attributes": True
     }
 
-# API routes
+# POST /bmi → calculate and store
 @app.post("/bmi", response_model=BMIResponse)
 def calculate_bmi(data: BMIInput, db: Session = Depends(get_db)):
     bmi_calc = BMICalculator(weight=data.weight, height=data.height, unit=data.unit)
@@ -70,25 +67,15 @@ def calculate_bmi(data: BMIInput, db: Session = Depends(get_db)):
     )
     db.add(record)
     db.commit()
+
     return BMIResponse(bmi=bmi, category=category, tip=tip)
 
+# GET /bmi/history → return all
 @app.get("/bmi/history", response_model=List[BMIHistoryResponse])
-def get_bmi_history(
-    db: Session = Depends(get_db),
-    min_bmi: float = Query(None),
-    max_bmi: float = Query(None),
-    category: str = Query(None)
-):
-    query = db.query(BMIRecord)
-    if min_bmi is not None:
-        query = query.filter(BMIRecord.bmi >= min_bmi)
-    if max_bmi is not None:
-        query = query.filter(BMIRecord.bmi <= max_bmi)
-    if category:
-        query = query.filter(BMIRecord.category == category)
+def get_bmi_history(db: Session = Depends(get_db)):
+    return db.query(BMIRecord).order_by(BMIRecord.timestamp.desc()).all()
 
-    return query.order_by(BMIRecord.timestamp.desc()).all()
-
+# DELETE /bmi/{id} → remove one
 @app.delete("/bmi/{record_id}")
 def delete_bmi_record(record_id: int, db: Session = Depends(get_db)):
     record = db.query(BMIRecord).filter(BMIRecord.id == record_id).first()
@@ -98,3 +85,10 @@ def delete_bmi_record(record_id: int, db: Session = Depends(get_db)):
     db.delete(record)
     db.commit()
     return {"message": f"Record {record_id} deleted successfully"}
+
+# DELETE /bmi/all → remove all
+@app.delete("/bmi/all")
+def delete_all_bmi_records(db: Session = Depends(get_db)):
+    db.query(BMIRecord).delete()
+    db.commit()
+    return {"message": "All BMI records deleted"}
