@@ -1,37 +1,60 @@
-document.getElementById("bmi-form").addEventListener("submit", function (e) {
+const form = document.getElementById("bmiForm");
+const resultText = document.getElementById("resultText");
+const resultSection = document.getElementById("result");
+const bodyImage = document.getElementById("bodyImage");
+
+form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const weight = parseFloat(document.getElementById("weight").value);
   const height = parseFloat(document.getElementById("height").value);
-  const result = document.getElementById("result");
+  const unit = document.getElementById("units").value;
 
-  if (!weight || !height) {
-    result.innerHTML = "<p>Please enter valid weight and height.</p>";
-    return;
+  let bmi;
+
+  if (unit === "metric") {
+    const heightM = height / 100;
+    bmi = weight / (heightM * heightM);
+  } else {
+    const kg = weight * 0.453592;
+    const m = height * 0.0254;
+    bmi = kg / (m * m);
   }
 
-  const heightMeters = height / 100;
-  const bmi = (weight / (heightMeters * heightMeters)).toFixed(1);
+  bmi = parseFloat(bmi.toFixed(2));
 
+  // Determine category and image
   let category = "";
-  let image = "";
+  let tip = "";
+  let imageFile = "";
 
   if (bmi < 18.5) {
     category = "Underweight";
-    image = "underweight.png";
+    tip = "Eat more healthy calories and consult a nutritionist.";
+    imageFile = "body_underweight.png";
   } else if (bmi < 25) {
     category = "Normal weight";
-    image = "normal.png";
+    tip = "Great job! Keep a balanced diet and stay active.";
+    imageFile = "body_normal.png";
   } else if (bmi < 30) {
     category = "Overweight";
-    image = "overweight.png";
+    tip = "Try to add more physical activity and watch portion sizes.";
+    imageFile = "body_overweight.png";
   } else {
-    category = "Obese";
-    image = "obese.png";
+    category = "Obesity";
+    tip = "Consider working with a doctor or dietitian.";
+    imageFile = "body_obesity.png";
   }
 
-  result.innerHTML = `
-    <p>Your BMI is <strong>${bmi}</strong> — <strong>${category}</strong></p>
-    <img src="${image}" alt="${category}" />
+  // Show result
+  resultText.innerHTML = `
+    <h3>Your BMI: ${bmi}</h3>
+    <p><strong>Category:</strong> ${category}</p>
+    <p><strong>Tip:</strong> ${tip}</p>
   `;
+
+  bodyImage.src = imageFile;
+  bodyImage.alt = category;
+  bodyImage.classList.remove("hidden");
+  resultSection.classList.remove("hidden");
 });
