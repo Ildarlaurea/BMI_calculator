@@ -9,7 +9,7 @@
 <body>
   <!-- Hero Section -->
   <section class="hero">
-    <img src="intro-image.jpg" class="hero-img" alt="Intro"/>
+    <img src="intro-image.jpg" class="hero-img" alt="Intro" />
     <h1 class="hero-title">BMI Calculator</h1>
     <p class="hero-credit">Made by Ildar Mamin</p>
     <a href="#form-section" class="scroll-down">↓</a>
@@ -17,24 +17,35 @@
 
   <!-- BMI Form Section -->
   <section id="form-section" class="form-section">
-    <form id="bmi-form">
-      <label>Weight:<br><input type="number" id="weight" placeholder="e.g. 70 (kg)" required /></label><br>
-      <label>Height:<br><input type="number" id="height" placeholder="e.g. 170 (cm)" required /></label><br>
+    <form id="bmiForm">
+      <label>Weight:<br>
+        <input type="number" id="weight" placeholder="e.g. 70 (kg)" required />
+      </label><br>
+
+      <label>Height:<br>
+        <input type="number" id="height" placeholder="e.g. 170 (cm)" required />
+      </label><br>
+
       <label>Units:<br>
         <select id="units">
           <option value="metric">Metric (kg/cm)</option>
+          <option value="imperial">Imperial (lbs/in)</option>
         </select>
       </label><br>
+
       <button type="submit">Calculate</button>
     </form>
-    <div id="result"></div>
-  </section>
 
-  <script src="script.js"></script>
+    <div id="result" class="hidden">
+      <div id="resultText"></div>
+      <img id="bodyImage" class="body-image hidden" alt="Body type" />
+    </div>
+  </section>
 
   <footer class="footer">
     <p>© 2025 Ildar Mamin. All rights reserved.</p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
