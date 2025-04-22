@@ -8,6 +8,8 @@ from datetime import datetime
 from database import SessionLocal, engine
 from models import Base, BMIRecord
 from bmi_model import BMICalculator
+from fastapi.staticfiles import StaticFiles
+
 
 # Initialize FastAPI
 app = FastAPI()
@@ -15,6 +17,7 @@ Base.metadata.create_all(bind=engine)
 
 # Mount frontend at /static
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 # DB session
 def get_db():
